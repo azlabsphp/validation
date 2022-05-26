@@ -48,7 +48,6 @@ trait ValidatesViewModel
     /**
      * Apply validation rules on array input using rules defines in a validatable model instance.
      *
-     * @param array $values
      * @param CoreValidatable $validatable
      *
      * @return static
@@ -83,6 +82,7 @@ trait ValidatesViewModel
         if ($this->updating && method_exists($validatable, 'updateRules')) {
             return $validatable->updateRules() ?? [];
         }
+
         return $validatable->rules() ?? [];
     }
 }

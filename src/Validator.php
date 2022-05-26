@@ -18,11 +18,10 @@ use Drewlabs\Contracts\Validator\ExceptionalValidator;
 use Drewlabs\Contracts\Validator\Validator as ContractsValidator;
 use Drewlabs\Contracts\Validator\ValidatorFactory;
 use Drewlabs\Overloadable\Overloadable;
-use Drewlabs\Validator\Traits\ValidatesArray;
-use Drewlabs\Validator\Traits\HavingAfterCallback;
-use Drewlabs\Validator\Traits\ValidatesViewModel;
 use Drewlabs\Validator\Exceptions\ValidationException;
-use Exception;
+use Drewlabs\Validator\Traits\HavingAfterCallback;
+use Drewlabs\Validator\Traits\ValidatesArray;
+use Drewlabs\Validator\Traits\ValidatesViewModel;
 
 /**
  * @method self|mixed validate(array $values, array $rules, ?array $messages = [], ?\Closure $callback = null)
@@ -32,10 +31,10 @@ use Exception;
  */
 class Validator implements ContractsValidator, ExceptionalValidator
 {
-    use ValidatesArray;
     use HavingAfterCallback;
-    use ValidatesViewModel;
     use Overloadable;
+    use ValidatesArray;
+    use ValidatesViewModel;
 
     /**
      * Model validation errors generated after validation.
@@ -54,7 +53,7 @@ class Validator implements ContractsValidator, ExceptionalValidator
     /**
      * Creates an instance of InputsValidator class.
      *
-     * @param \\Illuminate\Contracts\Validation\Factory|ValidatorFactory|ValidatorFactory $validator
+     * @param \Illuminate\Contracts\Validation\Factory|ValidatorFactory|ValidatorFactory $validator
      */
     public function __construct($validator)
     {
@@ -63,7 +62,7 @@ class Validator implements ContractsValidator, ExceptionalValidator
 
     /**
      * {@inheritDoc}
-     * 
+     *
      * @throws ValidationException
      */
     public function validate(...$args)
@@ -79,14 +78,15 @@ class Validator implements ContractsValidator, ExceptionalValidator
             },
             function (string $validatable, array $values, $callback = null) {
                 if (class_exists($validatable)) {
-                    $validatable = function_exists('app') ? call_user_func('app', $validatable) : new $validatable();
+                    $validatable = \function_exists('app') ? \call_user_func('app', $validatable) : new $validatable();
+
                     return $this->after($callback)->validateAndRunCallback(
                         function () use ($values, $validatable) {
                             return $this->validateModel($values, $validatable);
                         }
                     );
                 }
-                throw new \Exception('Class must be an instance of ' . CoreValidatable::class);
+                throw new \Exception('Class must be an instance of '.CoreValidatable::class);
             },
             function (CoreValidatable $validatable, array $values, $callback = null) {
                 return $this->after($callback)->validateAndRunCallback(function () use ($values, $validatable) {
@@ -98,6 +98,7 @@ class Validator implements ContractsValidator, ExceptionalValidator
                     if (!\is_array($values = $this->getValues($viewModel))) {
                         throw new \Exception('Return type of all() or toArray() method must be a PHP array');
                     }
+
                     return $this->validateModel($values, $viewModel);
                 });
             },
@@ -125,9 +126,9 @@ class Validator implements ContractsValidator, ExceptionalValidator
     }
 
     /**
-     * Returns the validation factory use to validate inputs or view model
-     * 
-     * @return Illuminate\Contracts\Validation\Factory|ValidatorFactory 
+     * Returns the validation factory use to validate inputs or view model.
+     *
+     * @return Illuminate\Contracts\Validation\Factory|ValidatorFactory
      */
     public function getFactory()
     {
@@ -137,8 +138,9 @@ class Validator implements ContractsValidator, ExceptionalValidator
     protected function getValues($viewModel)
     {
         if (!(method_exists($viewModel, 'all') || method_exists($viewModel, 'toArray'))) {
-            throw new Exception('Validatable class must define a all() or toArray() method that returns the array of values to validate');
+            throw new \Exception('Validatable class must define a all() or toArray() method that returns the array of values to validate');
         }
+
         return method_exists($viewModel, 'all') ?
             \call_user_func([$viewModel, 'all']) : (method_exists($viewModel, 'toArray') ?
                 \call_user_func([$viewModel, 'toArray']) :

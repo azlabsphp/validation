@@ -54,8 +54,9 @@ trait HasAuthenticatable
 
     /**
      * Returns the authenticatable binded to the current object.
-     * 
-     * @param string|null $guard 
+     *
+     * @param string|null $guard
+     *
      * @return Authenticatable|mixed
      */
     public function user($guard = null)

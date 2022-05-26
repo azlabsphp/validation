@@ -25,7 +25,7 @@ use Drewlabs\Validator\Validator;
  */
 function ViewModel($clazz, ?Authenticatable $user = null, array $attributes = [], array $files = [])
 {
-    $object = \is_string($clazz) ? new $clazz : $clazz;
+    $object = \is_string($clazz) ? new $clazz() : $clazz;
     if (!\is_object($object) || !($object instanceof CoreValidatable)) {
         throw new \InvalidArgumentException('1st argument to '.__FUNCTION__.' must be a valid core validatable object or class name');
     }
@@ -76,5 +76,6 @@ function Validator($factory)
     if ((null === $factory) || !(\is_object($factory))) {
         throw new \InvalidArgumentException('Validator must be a valid PHP object');
     }
+
     return new Validator($factory);
 }

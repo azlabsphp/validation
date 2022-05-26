@@ -17,12 +17,12 @@ use Drewlabs\Core\Helpers\Arr;
 
 trait ViewModel
 {
+    use AccessibleViewModel;
     use HasAuthenticatable;
     use HasFileAttributes;
-    use AccessibleViewModel;
 
     /**
-     * Inputs container or parameters bag
+     * Inputs container or parameters bag.
      *
      * @var array
      */
@@ -43,7 +43,7 @@ trait ViewModel
         if ($model) {
             return $model->{$name}(...$arguments);
         }
-        throw new \BadMethodCallException("Method $name does not exists on " . __CLASS__);
+        throw new \BadMethodCallException("Method $name does not exists on ".__CLASS__);
     }
 
     /**
@@ -164,16 +164,16 @@ trait ViewModel
         foreach (\is_array($keys) ? $keys : \func_get_args() as $key) {
             Arr::set($results, $key, Arr::get($inputs, $key));
         }
+
         return $results;
     }
 
     // #region Miscelanous methods
 
     /**
-     * Returns the list of request inputs execept files contents
-     * 
+     * Returns the list of request inputs execept files contents.
+     *
      * {@inheritDoc}
-     * 
      */
     public function toArray()
     {
@@ -181,16 +181,17 @@ trait ViewModel
     }
 
     /**
-     * Returns all request input except user provided keys
-     * 
-     * @param array $keys 
-     * @return array 
+     * Returns all request input except user provided keys.
+     *
+     * @param array $keys
+     *
+     * @return array
      */
     public function except($keys = [])
     {
         return Arr::except($this->all(), $keys ?? []);
-        
     }
+
     /**
      * Add / Set value of the provided key to equals the id if the currently
      * connected user.

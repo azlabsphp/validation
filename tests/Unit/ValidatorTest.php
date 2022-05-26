@@ -13,15 +13,15 @@ declare(strict_types=1);
 
 namespace Drewlabs\Validator\Tests\Unit;
 
+use Drewlabs\Validator\Exceptions\ValidationException;
+use function Drewlabs\Validator\Proxy\Validator;
 use Drewlabs\Validator\Tests\Stubs\CoreValidatableModel;
 use Drewlabs\Validator\Tests\Stubs\FakeValidatorFactory;
 use Drewlabs\Validator\Tests\Stubs\ValidatableModel;
+
 use Drewlabs\Validator\Tests\TestCase;
-use Drewlabs\Validator\Exceptions\ValidationException;
 
-use function Drewlabs\Validator\Proxy\Validator;
-
-class InputsValidatorTest extends TestCase
+class ValidatorTest extends TestCase
 {
     public function testValidateArray()
     {
