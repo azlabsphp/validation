@@ -1,0 +1,10 @@
+.DS_Store
+.vscode
+/vendor
+/.idea
+.phpunit.result.cache
+composer.lock
+
+.metals/
+.vscode/
+metals/
