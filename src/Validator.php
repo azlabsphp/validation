@@ -22,6 +22,7 @@ use Drewlabs\Validator\Exceptions\ValidationException;
 use Drewlabs\Validator\Traits\HavingAfterCallback;
 use Drewlabs\Validator\Traits\ValidatesArray;
 use Drewlabs\Validator\Traits\ValidatesViewModel;
+use Exception;
 
 /**
  * @method self|mixed validate(array $values, array $rules, ?array $messages = [], ?\Closure $callback = null)
@@ -95,10 +96,9 @@ class Validator implements ContractsValidator, ExceptionalValidator
             },
             function (CoreValidatable $viewModel, $callback = null) {
                 return $this->after($callback)->validateAndRunCallback(function () use ($viewModel) {
-                    if (!\is_array($values = $this->getValues($viewModel))) {
+                    if (!\is_array($values = $this->getValues($this->beforeValidation($viewModel)))) {
                         throw new \Exception('Return type of all() or toArray() method must be a PHP array');
                     }
-
                     return $this->validateModel($values, $viewModel);
                 });
             },
@@ -135,12 +135,20 @@ class Validator implements ContractsValidator, ExceptionalValidator
         return $this->validator;
     }
 
+    /**
+     * 
+     * @param array|\stdClass $viewModel 
+     * @return mixed 
+     * @throws Exception 
+     */
     protected function getValues($viewModel)
     {
-        if (!(method_exists($viewModel, 'all') || method_exists($viewModel, 'toArray'))) {
-            throw new \Exception('Validatable class must define a all() or toArray() method that returns the array of values to validate');
+        if (is_array($viewModel)) {
+            return $viewModel;
         }
-
+        if (!(method_exists($viewModel, 'all') || method_exists($viewModel, 'toArray'))) {
+            throw new \LogicException('Validatable class must define a all() or toArray() method that returns the array of values to validate');
+        }
         return method_exists($viewModel, 'all') ?
             \call_user_func([$viewModel, 'all']) : (method_exists($viewModel, 'toArray') ?
                 \call_user_func([$viewModel, 'toArray']) :
@@ -155,5 +163,19 @@ class Validator implements ContractsValidator, ExceptionalValidator
     protected function setErrors(array $errors)
     {
         $this->errors = $errors;
+    }
+
+    /**
+     * Executes a callback before the validation get executed
+     * 
+     * @param mixed $viewModel 
+     * @return mixed 
+     */
+    protected function beforeValidation($viewModel)
+    {
+        if (is_object($viewModel) && method_exists($viewModel, 'before')) {
+            return $viewModel->before();
+        }
+        return $viewModel;
     }
 }

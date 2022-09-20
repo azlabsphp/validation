@@ -14,12 +14,11 @@ declare(strict_types=1);
 namespace Drewlabs\Validator\Traits;
 
 use Drewlabs\Core\Helpers\Arr;
+use Drewlabs\Contracts\Validator\CoreValidatable;
 
 trait ViewModel
 {
-    use AccessibleViewModel;
-    use HasAuthenticatable;
-    use HasFileAttributes;
+    use AccessibleViewModel, PreparesInputs, HasAuthenticatable, HasFileAttributes;
 
     /**
      * Inputs container or parameters bag.
@@ -28,11 +27,35 @@ trait ViewModel
      */
     private $inputs = [];
 
+    /**
+     * 
+     * @param mixed $name 
+     * @return mixed 
+     */
     public function __get($name)
     {
         return $this->get($name);
     }
 
+    /**
+     * Creates an instance of the current class
+     * 
+     * @param mixed $args 
+     * @return self|CoreValidatable|mixed
+     */
+    public static function new(...$args)
+    {
+        return new static(...$args);
+    }
+
+    /**
+     * Override function call if function does not exists on the current class
+     * 
+     * @param mixed $name 
+     * @param mixed $arguments 
+     * @return mixed 
+     * @throws BadMethodCallException 
+     */
     public function __call($name, $arguments)
     {
         $model = $this->model_ ?? $this->getModel();
@@ -43,7 +66,7 @@ trait ViewModel
         if ($model) {
             return $model->{$name}(...$arguments);
         }
-        throw new \BadMethodCallException("Method $name does not exists on ".__CLASS__);
+        throw new \BadMethodCallException("Method $name does not exists on " . __CLASS__);
     }
 
     /**
