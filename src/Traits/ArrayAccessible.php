@@ -13,7 +13,7 @@ declare(strict_types=1);
 
 namespace Drewlabs\Validator\Traits;
 
-trait AccessibleViewModel
+trait ArrayAccessible
 {
     #[\ReturnTypeWillChange]
     public function offsetExists($offset)

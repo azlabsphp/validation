@@ -13,42 +13,48 @@ declare(strict_types=1);
 
 namespace Drewlabs\Validator\Traits;
 
+use Closure;
 use Drewlabs\Validator\Exceptions\ValidationException;
 
 trait HavingAfterCallback
 {
-    private $callback_;
+    /**
+     * 
+     * @var \Closure
+     */
+    private $__CALLBACK__;
+
 
     /**
      * {@inheritDoc}
-     *
-     * @return static
+     * 
+     * @param callable $callback 
+     * 
+     * @return self 
      */
     public function after($callback)
     {
-        if (null === $callback) {
-            return $this;
-        }
-        if (drewlabs_core_is_callable($callback)) {
-            $this->callback_ = $callback;
-
-            return $this;
-        }
-        throw new \InvalidArgumentException('Parameter to the after method must be a callable instance');
+        $this->__CALLBACK__ = $callback;
+        return $this;
     }
 
-    private function validateAndRunCallback(\Closure $validationCallBack)
+    /**
+     * Execute validation an invoke the callback set using `after` method
+     * 
+     * @param Closure $project 
+     * @return mixed
+     * 
+     * @throws ValidationException 
+     */
+    private function through(\Closure $project)
     {
-        /** @var \Drewlabs\Validator\InputsValidator */
-        $self = \call_user_func($validationCallBack);
-        if ($this->callback_) {
-            if ($self instanceof self && ($self->fails())) {
+        $self = \call_user_func($project);
+        if (null !== ($callback = $self->__CALLBACK__)) {
+            if ($self->fails()) {
                 throw new ValidationException($self->errors());
             }
-
-            return \call_user_func($this->callback_, $self);
+            return \call_user_func($callback, $self);
         }
-
         return $self;
     }
 }

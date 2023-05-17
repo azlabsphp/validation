@@ -16,35 +16,40 @@ namespace Drewlabs\Validator\Traits;
 use Closure;
 use LogicException;
 
+/**
+ * @method self|void prepareForValidation()
+ */
 trait PreparesInputs
 {
     /**
-     * Before validating the current object execute this function to transform request inputs
-     * 
-     * @return self 
+     * Before validating the current object execute this function to transform request inputs.
+     *
+     * @return self
      */
-    public final function before()
+    final public function before()
     {
-        if (method_exists($this, 'prepareForValidation')) {
-            $self = method_exists($this, 'clone') ? $this->clone() : (clone $this);
+        return $this->transform(function($self) {
+            if (!method_exists($self, 'prepareForValidation')) {
+                return $self;
+            }
+            // Executes the prepareForValidation implementation
             $self->prepareForValidation();
             return $self;
-        }
-        return $this;
+        });
     }
 
     /**
-     * Applies a transformation function on the current instnce
+     * Send the current instance though a projection function which must return the same instance or
+     * a modified copy of the current instance
      * 
      * @param Closure $callback 
-     * @return mixed 
+     * @return self 
+     * @throws LogicException 
      */
     public function transform(\Closure $callback)
     {
-        $classname = get_class($this);
-        $object = $callback($this);
-        if (!is_a($object, $classname)) {
-            throw new LogicException('Transformating function must return an instance of the current class, ' . (is_object($object) && (null !== $object) ? get_class($object) : gettype($object)));
+        if (!is_a($object = $callback(clone $this), static::class)) {
+            throw new \LogicException('Transformating function must return an instance of the current class, '.(\is_object($object) && (null !== $object) ? \get_class($object) : \gettype($object)));
         }
         return $object;
     }

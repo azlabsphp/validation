@@ -27,19 +27,27 @@ $rules = [
     'combine_consecutive_issets' => true,
     'combine_consecutive_unsets' => true,
     'compact_nullable_typehint' => true,
-    'global_namespace_import' => ['import_classes' => false, 'import_constants' => false, 'import_functions' => false],
+    'global_namespace_import' => [
+        'import_classes' => false,
+        'import_constants' => false,
+        'import_functions' => false
+    ],
     'header_comment' => [
         'header' => $header,
     ],
     'list_syntax' => ['syntax' => 'short'],
     'logical_operators' => true,
-    'method_argument_space' => ['on_multiline' => 'ensure_fully_multiline'],
+    'method_argument_space' => [
+        'on_multiline' => 'ensure_fully_multiline'
+    ],
     'no_extra_blank_lines' => true,
     'no_php4_constructor' => true,
     'no_superfluous_phpdoc_tags' => ['allow_mixed' => true],
     'no_useless_else' => true,
     'no_useless_return' => true,
-    'nullable_type_declaration_for_default_null_value' => ['use_nullable_type_declaration' => true],
+    'nullable_type_declaration_for_default_null_value' => [
+        'use_nullable_type_declaration' => false
+    ],
     'ordered_class_elements' => true,
     'ordered_imports' => true,
     'php_unit_method_casing' => false,

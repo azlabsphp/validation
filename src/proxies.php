@@ -16,36 +16,22 @@ namespace Drewlabs\Validator\Proxy;
 use Drewlabs\Contracts\Auth\Authenticatable;
 use Drewlabs\Contracts\Validator\CoreValidatable;
 use Drewlabs\Validator\InputsValidator;
-use Drewlabs\Validator\Validator;
+use Drewlabs\Validator\ValidatorAdapter;
 
 /**
  * Creates a {@link CoreValidatable} class instance.
  *
  * @return CoreValidatable|mixed
  */
-function ViewModel($clazz, ?Authenticatable $user = null, array $attributes = [], array $files = [])
+function ViewModel($blueprint, Authenticatable $user = null, array $attributes = [], array $files = [])
 {
-    $object = \is_string($clazz) ? new $clazz() : $clazz;
+    $object = \is_string($blueprint) ? new $blueprint() : $blueprint;
     if (!\is_object($object) || !($object instanceof CoreValidatable)) {
         throw new \InvalidArgumentException('1st argument to '.__FUNCTION__.' must be a valid core validatable object or class name');
     }
     /**
-     * @var mixed
+     * @var mixed $object
      */
-    $object = $object;
-    if (method_exists($object, 'call')) {
-        return $object->call('setUserResolver', [
-            static function () use ($user) {
-                return $user;
-            },
-        ])
-        ->call('merge', [
-            $attributes ?? [],
-        ])
-        ->call('files', [
-            $files ?? [],
-        ]);
-    }
     if (method_exists($object, 'setUserResolver') && (null !== $user)) {
         $object = $object->setUserResolver(static function () use ($user) {
             return $user;
@@ -77,5 +63,5 @@ function Validator($factory)
         throw new \InvalidArgumentException('Validator must be a valid PHP object');
     }
 
-    return new Validator($factory);
+    return new ValidatorAdapter($factory);
 }

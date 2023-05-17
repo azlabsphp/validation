@@ -1,5 +1,5 @@
 {
-    "name": "drewlabs/validator",
+    "name": "drewlabs/validation",
     "description": "Provides validation implementation using view model or array. It provides a wrapper arround laravel fluent validator factory class, but is attempt to be framework agnostic",
     "type": "library",
     "license": "MIT",
@@ -12,9 +12,8 @@
         ]
     },
     "keywords": [
-        "validator",
-        "fluent",
-        "model"
+        "validation",
+        "fluent"
     ],
     "autoload-dev": {
         "psr-4": {

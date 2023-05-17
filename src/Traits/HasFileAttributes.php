@@ -25,7 +25,7 @@ trait HasFileAttributes
      *
      * @var array
      */
-    private $files_ = [];
+    private $__FILES__ = [];
 
     /**
      * Attache a list of files to the current object.
@@ -37,7 +37,7 @@ trait HasFileAttributes
         if (null === $files) {
             return $this->allFiles();
         }
-        $this->files_ = \is_array($files) ? $files : [];
+        $this->__FILES__ = \is_array($files) ? $files : [];
 
         return $this;
     }
@@ -52,7 +52,7 @@ trait HasFileAttributes
     public function addFile(string $name, $file)
     {
         if ($file) {
-            $this->files_[$name] = $file;
+            $this->__FILES__[$name] = $file;
         }
 
         return $this;
@@ -65,7 +65,7 @@ trait HasFileAttributes
      */
     public function file(string $key)
     {
-        return $this->files_[$key] ?? null;
+        return $this->__FILES__[$key] ?? null;
     }
 
     /**
@@ -75,6 +75,6 @@ trait HasFileAttributes
      */
     public function allFiles()
     {
-        return $this->files_ ?? [];
+        return $this->__FILES__ ?? [];
     }
 }

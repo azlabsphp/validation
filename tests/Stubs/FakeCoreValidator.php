@@ -36,7 +36,7 @@ class FakeCoreValidator implements CoreValidator
             if (\in_array('numeric', $value, true) && !is_numeric(($values[$key] ?? null))) {
                 $this->errors_["$key.numeric"] = "$key attribute must be a numeric value";
             }
-            if (in_array('string', $value, true) && !is_string($values[$key])) {
+            if (\in_array('string', $value, true) && !\is_string($values[$key])) {
                 $this->errors_["$key.string"] = "$key attribute must be a string value";
             }
         }

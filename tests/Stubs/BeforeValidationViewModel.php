@@ -22,22 +22,22 @@ class BeforeValidationViewModel implements CoreValidatable
 
     private $model_ = TestModel::class;
 
-    protected function prepareForValidation()
-    {
-        $this->merge([
-            'details' => json_encode($this->details)
-        ]);
-    }
-
     public function rules()
     {
         return [
-            'details' => 'required|string'
+            'details' => 'required|string',
         ];
     }
 
     public function messages()
     {
         return [];
+    }
+
+    protected function prepareForValidation()
+    {
+        $this->update([
+            'details' => json_encode($this->details),
+        ]);
     }
 }

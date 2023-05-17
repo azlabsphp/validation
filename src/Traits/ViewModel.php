@@ -13,12 +13,14 @@ declare(strict_types=1);
 
 namespace Drewlabs\Validator\Traits;
 
-use Drewlabs\Core\Helpers\Arr;
 use Drewlabs\Contracts\Validator\CoreValidatable;
+use Drewlabs\Core\Helpers\Arr;
 
 trait ViewModel
 {
-    use AccessibleViewModel, PreparesInputs, HasAuthenticatable, HasFileAttributes;
+    use ArrayAccessible;
+    use HasFileAttributes;
+    use PreparesInputs;
 
     /**
      * Inputs container or parameters bag.
@@ -28,9 +30,9 @@ trait ViewModel
     private $inputs = [];
 
     /**
-     * 
-     * @param mixed $name 
-     * @return mixed 
+     * @param mixed $name
+     *
+     * @return mixed
      */
     public function __get($name)
     {
@@ -38,30 +40,20 @@ trait ViewModel
     }
 
     /**
-     * Creates an instance of the current class
-     * 
-     * @param mixed $args 
-     * @return self|CoreValidatable|mixed
-     */
-    public static function new(...$args)
-    {
-        return new static(...$args);
-    }
-
-    /**
-     * Override function call if function does not exists on the current class
-     * 
-     * @param mixed $name 
-     * @param mixed $arguments 
-     * @return mixed 
-     * @throws BadMethodCallException 
+     * Override function call if function does not exists on the current class.
+     *
+     * @param mixed $name
+     * @param mixed $arguments
+     *
+     * @throws BadMethodCallException
+     *
+     * @return mixed
      */
     public function __call($name, $arguments)
     {
-        $model = $this->model_ ?? $this->getModel();
         // We create an instance of the model class if it's a string
-        if (\is_string($model) && class_exists($model)) {
-            $model = new $model();
+        if (\is_string($model = $this->getModel()) && class_exists($model)) {
+            $model = new $model;
         }
         if ($model) {
             return $model->{$name}(...$arguments);
@@ -70,15 +62,15 @@ trait ViewModel
     }
 
     /**
-     * @param mixed $model
+     * Creates an instance of the current class.
      *
-     * @return self
+     * @param mixed $args
+     *
+     * @return self|CoreValidatable|mixed
      */
-    public function setModel($model)
+    public static function new(...$args)
     {
-        $this->model_ = $model;
-
-        return $this;
+        return new static(...$args);
     }
 
     /**
@@ -96,31 +88,53 @@ trait ViewModel
      */
     public function set(array $values = [])
     {
-        return $this->withBody($values ?? []);
+        $this->inputs = $values ?? [];
+        return $this;
     }
 
     /**
-     * Set the attributes to validate on the validatable class.
-     *
-     * @return self
+     * Copy the current object modifying the body attribute
+     * 
+     * @param array $values 
+     * 
+     * @return self 
      */
     public function withBody(array $values = [])
     {
-        $this->inputs = $values ?? [];
-
-        return $this;
+        $self = clone $this;
+        $self->set($values ?? []);
+        return $self;
     }
 
     /**
      * Merge the object inputs with some new values provided.
-     *
-     * @return self
+     * 
+     * **Note** By default, the merge method, return a modified
+     * copy of the object. To modify object internal state instead,
+     * pass `true` as second parameter to the merge call `merge([...], true)`
+     * or call the `update([...])` to modify the object internal state
+     * 
+     * @param array $values 
+     * @param bool $mutate 
+     * @return self 
      */
-    public function merge(array $values = [])
+    public function merge(array $values = [], bool $mutate = false)
     {
-        $this->inputs = array_merge($this->inputs ?? [], $values ?? []);
+        $self = $mutate ? $this : clone $this;
+        $self->set(array_merge($this->inputs ?? [], $values ?? []));
+        return $self;
+    }
 
-        return $this;
+    /**
+     * Update object internal state with the provided values
+     * 
+     * @param array $values
+     * 
+     * @return self 
+     */
+    public function update(array $values = [])
+    {
+        return $this->merge($values, true);
     }
 
     /**
@@ -130,7 +144,7 @@ trait ViewModel
      *
      * @return array|mixed|null
      */
-    public function get(?string $key = null)
+    public function get(string $key = null)
     {
         if (null === $this->inputs) {
             return [];
@@ -153,7 +167,6 @@ trait ViewModel
         if (null === $this->inputs) {
             return false;
         }
-
         return null !== ($this->inputs[$key] ?? null);
     }
 
@@ -213,19 +226,6 @@ trait ViewModel
     public function except($keys = [])
     {
         return Arr::except($this->all(), $keys ?? []);
-    }
-
-    /**
-     * Add / Set value of the provided key to equals the id if the currently
-     * connected user.
-     *
-     * @return self
-     */
-    public function setAuthUserInput(string $key)
-    {
-        return $this->merge([
-            $key => (null !== ($user = $this->user())) ? $user->authIdentifier() : null,
-        ]);
     }
     // #endregion Miscelanous methods
 }

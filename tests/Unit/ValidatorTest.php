@@ -14,9 +14,9 @@ declare(strict_types=1);
 namespace Drewlabs\Validator\Tests\Unit;
 
 use Drewlabs\Validator\Exceptions\ValidationException;
-use Drewlabs\Validator\Tests\Stubs\BeforeValidationViewModel;
-
 use function Drewlabs\Validator\Proxy\Validator;
+
+use Drewlabs\Validator\Tests\Stubs\BeforeValidationViewModel;
 use Drewlabs\Validator\Tests\Stubs\CoreValidatableModel;
 use Drewlabs\Validator\Tests\Stubs\FakeValidatorFactory;
 use Drewlabs\Validator\Tests\Stubs\ValidatableModel;
@@ -123,15 +123,14 @@ class ValidatorTest extends TestCase
         $this->assertTrue($result, 'Expects the validation to fail');
     }
 
-
-    public function testBefore_validation_transformation()
+    public function test_before_validation_transformation()
     {
         $validator = Validator((new FakeValidatorFactory()));
         $viewModel = BeforeValidationViewModel::new()->merge([
             'details' => [
                 'account_number' => '02401342-924-009',
-                'amount' => 45000
-            ]
+                'amount' => 45000,
+            ],
         ]);
         $result = $validator->validate($viewModel, static function () {
             return true;
