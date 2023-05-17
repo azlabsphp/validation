@@ -1,0 +1,7 @@
+# Changelogs
+
+## [0.2.0] 2023-05-17
+
+- Code review
+- Updated namespace from `Drewlabs\Validator` to `Drewlabs\Validation`
+- Prepares transition to public implementation of `contracts` and `core-helpers` libraries
