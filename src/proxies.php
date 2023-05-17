@@ -11,17 +11,25 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 
-namespace Drewlabs\Validator\Proxy;
+namespace Drewlabs\Validation\Proxy;
 
 use Drewlabs\Contracts\Auth\Authenticatable;
 use Drewlabs\Contracts\Validator\CoreValidatable;
-use Drewlabs\Validator\InputsValidator;
-use Drewlabs\Validator\ValidatorAdapter;
+use Drewlabs\Validation\ValidatorAdapter;
+use Drewlabs\Contracts\Validator\ValidatorFactory;
+use Closure;
+use InvalidArgumentException;
+
 
 /**
  * Creates a {@link CoreValidatable} class instance.
- *
- * @return CoreValidatable|mixed
+ * 
+ * @param mixed $blueprint 
+ * @param Authenticatable|null $user 
+ * @param array $attributes 
+ * @param array $files 
+ * @return mixed 
+ * @throws InvalidArgumentException 
  */
 function ViewModel($blueprint, Authenticatable $user = null, array $attributes = [], array $files = [])
 {
@@ -51,17 +59,16 @@ function ViewModel($blueprint, Authenticatable $user = null, array $attributes =
 /**
  * Creates an instance of the Validator class.
  *
- * @param mixed $factory
+ * @param ValidatorFactory|\Closure $factory
  *
  * @throws \InvalidArgumentException
  *
- * @return InputsValidator
+ * @return ValidatorAdapter
  */
 function Validator($factory)
 {
     if ((null === $factory) || !(\is_object($factory))) {
         throw new \InvalidArgumentException('Validator must be a valid PHP object');
     }
-
     return new ValidatorAdapter($factory);
 }

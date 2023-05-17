@@ -11,7 +11,7 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 
-namespace Drewlabs\Validator;
+namespace Drewlabs\Validation;
 
 use Drewlabs\Contracts\Validator\ValidatorFactory;
 use InvalidArgumentException;

@@ -11,7 +11,7 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 
-namespace Drewlabs\Validator\Tests\Stubs;
+namespace Drewlabs\Validation\Tests\Stubs;
 
 use Drewlabs\Contracts\Validator\ValidatorFactory;
 

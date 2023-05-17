@@ -5,7 +5,7 @@
     "license": "MIT",
     "autoload": {
         "psr-4": {
-            "Drewlabs\\Validator\\": "src/"
+            "Drewlabs\\Validation\\": "src/"
         },
         "files": [
             "./src/proxies.php"
@@ -17,7 +17,7 @@
     ],
     "autoload-dev": {
         "psr-4": {
-            "Drewlabs\\Validator\\Tests\\": "tests/"
+            "Drewlabs\\Validation\\Tests\\": "tests/"
         }
     },
     "authors": [{
@@ -31,8 +31,8 @@
     },
     "require": {
         "php": ">=7.3",
-        "drewlabs/contracts": "^2.0",
-        "drewlabs/core-helpers": "^2.0",
+        "drewlabs/contracts": "^0.2|^2.0",
+        "drewlabs/core-helpers": "^0.2|^2.0",
         "drewlabs/overloadable": "^0.1.0"
     },
     "repositories": [{

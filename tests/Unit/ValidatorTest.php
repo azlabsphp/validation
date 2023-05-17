@@ -11,17 +11,17 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 
-namespace Drewlabs\Validator\Tests\Unit;
+namespace Drewlabs\Validation\Tests\Unit;
 
-use Drewlabs\Validator\Exceptions\ValidationException;
-use function Drewlabs\Validator\Proxy\Validator;
+use Drewlabs\Validation\Exceptions\ValidationException;
+use function Drewlabs\Validation\Proxy\Validator;
 
-use Drewlabs\Validator\Tests\Stubs\BeforeValidationViewModel;
-use Drewlabs\Validator\Tests\Stubs\CoreValidatableModel;
-use Drewlabs\Validator\Tests\Stubs\FakeValidatorFactory;
-use Drewlabs\Validator\Tests\Stubs\ValidatableModel;
+use Drewlabs\Validation\Tests\Stubs\BeforeValidationViewModel;
+use Drewlabs\Validation\Tests\Stubs\CoreValidatableModel;
+use Drewlabs\Validation\Tests\Stubs\FakeValidatorFactory;
+use Drewlabs\Validation\Tests\Stubs\ValidatableModel;
 
-use Drewlabs\Validator\Tests\TestCase;
+use Drewlabs\Validation\Tests\TestCase;
 
 class ValidatorTest extends TestCase
 {

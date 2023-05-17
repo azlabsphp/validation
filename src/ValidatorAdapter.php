@@ -11,15 +11,15 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 
-namespace Drewlabs\Validator;
+namespace Drewlabs\Validation;
 
 use Drewlabs\Contracts\Validator\CoreValidatable;
 use Drewlabs\Contracts\Validator\ExceptionalValidator;
 use Drewlabs\Contracts\Validator\Validator as ContractsValidator;
 use Drewlabs\Contracts\Validator\ValidatorFactory;
 use Drewlabs\Overloadable\Overloadable;
-use Drewlabs\Validator\Exceptions\ValidationException;
-use Drewlabs\Validator\Traits\HavingAfterCallback;
+use Drewlabs\Validation\Exceptions\ValidationException;
+use Drewlabs\Validation\Traits\HavingAfterCallback;
 use InvalidArgumentException;
 
 /**

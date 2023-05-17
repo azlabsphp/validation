@@ -11,14 +11,14 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 
-namespace Drewlabs\Validator\Tests\Unit;
+namespace Drewlabs\Validation\Tests\Unit;
 
 use Drewlabs\Contracts\Validator\CoreValidatable;
-use function Drewlabs\Validator\Proxy\ViewModel;
-use Drewlabs\Validator\Tests\Stubs\AuthenticatableStub;
-use Drewlabs\Validator\Tests\Stubs\TestViewModel;
+use function Drewlabs\Validation\Proxy\ViewModel;
+use Drewlabs\Validation\Tests\Stubs\AuthenticatableStub;
+use Drewlabs\Validation\Tests\Stubs\TestViewModel;
 
-use Drewlabs\Validator\Tests\TestCase;
+use Drewlabs\Validation\Tests\TestCase;
 
 class AttributeViewModelTest extends TestCase
 {
