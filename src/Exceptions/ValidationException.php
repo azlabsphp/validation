@@ -20,11 +20,16 @@ final class ValidationException extends \Exception
      *
      * @var array|mixed
      */
-    private $errors_;
+    private $errors;
 
+    /**
+     * Creates class instance
+     * 
+     * @param string $errors 
+     */
     public function __construct($errors)
     {
-        $this->errors_ = $errors;
+        $this->errors = $errors;
         parent::__construct('Input validation fails... Check the error property of the class to get the list of errors');
     }
 
@@ -35,6 +40,6 @@ final class ValidationException extends \Exception
      */
     public function getErrors()
     {
-        return $this->errors_;
+        return $this->errors;
     }
 }

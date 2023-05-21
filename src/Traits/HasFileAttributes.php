@@ -13,10 +13,12 @@ declare(strict_types=1);
 
 namespace Drewlabs\Validation\Traits;
 
+use Psr\Http\Message\UploadedFileInterface;
+
 /**
- * @internal Uses internally by {@see ViewModel} trait
- * **Note**
- * Do not rely on it name as it's inteded to change
+ * Uses internally by {@see ViewModel} trait . Do not rely on it name as it's inteded to change
+ * 
+ * @internal
  */
 trait HasFileAttributes
 {
@@ -61,7 +63,7 @@ trait HasFileAttributes
     /**
      * Get a file from the list of attached files.
      *
-     * @return mixed|UploadedFile
+     * @return mixed|UploadedFileInterface
      */
     public function file(string $key)
     {
@@ -71,7 +73,7 @@ trait HasFileAttributes
     /**
      * Returns the list of files attached to the current object.
      *
-     * @return array|UploadedFile[]
+     * @return array|UploadedFileInterface[]
      */
     public function allFiles()
     {

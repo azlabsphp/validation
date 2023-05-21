@@ -21,13 +21,11 @@ use Drewlabs\Contracts\Validator\Validatable;
 final class ViewValidator
 {
     /**
-     * 
      * @var callable
      */
     private $factory;
 
     /**
-     * 
      * @var bool
      */
     private $updating = false;
