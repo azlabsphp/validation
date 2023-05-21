@@ -14,16 +14,19 @@ declare(strict_types=1);
 namespace Drewlabs\Validation\Tests\Stubs;
 
 use Drewlabs\Contracts\Auth\Authenticatable;
+use Drewlabs\Core\Helpers\Rand;
 
 class AuthenticatableStub implements Authenticatable
 {
     private $id;
 
-    private $username;
-
     private $password;
 
+    private $username;
+
     private $user_details;
+
+    private $token;
 
     public function authIdentifierName()
     {
@@ -48,10 +51,10 @@ class AuthenticatableStub implements Authenticatable
     public function rememberToken($token = null)
     {
         if ($token) {
-            $this->remember_token = $token;
+            $this->token = $token;
         }
 
-        return $this->remember_token;
+        return $this->token;
     }
 
     public function rememberTokenName()
@@ -85,6 +88,6 @@ class AuthenticatableStub implements Authenticatable
 
     public function createToken($name, array $scopes = [])
     {
-        return drewlabs_core_random_app_key(128);
+        return Rand::key(128);
     }
 }

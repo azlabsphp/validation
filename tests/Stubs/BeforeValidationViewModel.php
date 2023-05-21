@@ -36,8 +36,6 @@ class BeforeValidationViewModel implements CoreValidatable
 
     protected function prepareForValidation()
     {
-        $this->update([
-            'details' => json_encode($this->details),
-        ]);
+        $this->update(['details' => json_encode($this->details)]);
     }
 }

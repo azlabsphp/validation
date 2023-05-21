@@ -15,7 +15,7 @@ namespace Drewlabs\Validation;
 
 use Drewlabs\Contracts\Validator\CoreValidatable;
 use Drewlabs\Contracts\Validator\ExceptionalValidator;
-use Drewlabs\Contracts\Validator\Validator as ContractsValidator;
+use Drewlabs\Contracts\Validator\Validator;
 use Drewlabs\Contracts\Validator\ValidatorFactory;
 use Drewlabs\Overloadable\Overloadable;
 use Drewlabs\Validation\Exceptions\ValidationException;
@@ -28,7 +28,7 @@ use InvalidArgumentException;
  * @method self|mixed validate(\Drewlabs\Contracts\Validator\CoreValidatable $validatable, array $values, ?\Closure $callback = null)
  * @method self|mixed validate(\Drewlabs\Contracts\Validator\ViewModel $validatable, ?\Closure $callback = null)
  */
-final class ValidatorAdapter implements ContractsValidator, ExceptionalValidator
+final class ValidatorAdapter implements Validator, ExceptionalValidator
 {
     use HavingAfterCallback;
     use Overloadable;
@@ -75,49 +75,53 @@ final class ValidatorAdapter implements ContractsValidator, ExceptionalValidator
 
         return $this->overload($args, [
             function (array $rules, array $values, ?array $messages = [], \Closure $callback = null) {
-                return $this->after($callback)->through(function () use ($values, $rules, $messages) {
-                    $errors = FluentValidator::new($this->validator)->validate($values, $rules, $messages);
-                    if (!empty($errors)) {
-                        $this->setErrors($errors);
-                    }
-                    return $this;
-                });
+                return $this->after($callback)
+                    ->through(function () use ($values, $rules, $messages) {
+                        $errors = FluentValidator::new($this->validator)->validate($values, $rules, $messages);
+                        if (!empty($errors)) {
+                            $this->setErrors($errors);
+                        }
+                        return $this;
+                    });
             },
             function (string $validatable, array $values, $callback = null) {
                 if (class_exists($validatable)) {
-                    return $this->after($callback)->through(function () use ($values, $validatable) {
-                        $errors = ViewValidator::new($this->validator, $this->updating)->validate(new $validatable, $values);
+                    return $this->after($callback)
+                        ->through(function () use ($values, $validatable) {
+                            $errors = ViewValidator::new($this->validator, $this->updating)->validate(new $validatable, $values);
+                            if (!empty($errors)) {
+                                $this->setErrors($errors);
+                            }
+                            $this->updating = false;
+                            return $this;
+                        });
+                }
+                throw new InvalidArgumentException(sprintf("%s must exist and must be instance of %", $validatable, CoreValidatable::class));
+            },
+            function (CoreValidatable $object, array $values, $callback = null) {
+                return $this->after($callback)
+                    ->through(function () use ($values, $object) {
+                        $errors = ViewValidator::new($this->validator, $this->updating)->validate($object, $values);
                         if (!empty($errors)) {
                             $this->setErrors($errors);
                         }
                         $this->updating = false;
                         return $this;
                     });
-                }
-                throw new InvalidArgumentException(sprintf("%s must exist and must be instance of %", $validatable, CoreValidatable::class));
-            },
-            function (CoreValidatable $object, array $values, $callback = null) {
-                return $this->after($callback)->through(function () use ($values, $object) {
-                    $errors = ViewValidator::new($this->validator, $this->updating)->validate($object, $values);
-                    if (!empty($errors)) {
-                        $this->setErrors($errors);
-                    }
-                    $this->updating = false;
-                    return $this;
-                });
             },
             function (CoreValidatable $view, $callback = null) {
-                return $this->after($callback)->through(function () use ($view) {
-                    if (!\is_array($values = $this->getValues($this->beforeValidation($view)))) {
-                        throw new InvalidArgumentException('Return type of all() or toArray() method must be a PHP array');
-                    }
-                    $errors = ViewValidator::new($this->validator, $this->updating)->validate($view, $values);
-                    if (!empty($errors)) {
-                        $this->setErrors($errors);
-                    }
-                    $this->updating = false;
-                    return $this;
-                });
+                return $this->after($callback)
+                    ->through(function () use ($view) {
+                        if (!\is_array($values = $this->getValues($this->beforeValidation($view)))) {
+                            throw new InvalidArgumentException('Return type of all() or toArray() method must be a PHP array');
+                        }
+                        $errors = ViewValidator::new($this->validator, $this->updating)->validate($view, $values);
+                        if (!empty($errors)) {
+                            $this->setErrors($errors);
+                        }
+                        $this->updating = false;
+                        return $this;
+                    });
             },
         ]);
     }

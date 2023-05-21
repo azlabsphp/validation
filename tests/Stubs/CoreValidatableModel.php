@@ -19,9 +19,7 @@ class CoreValidatableModel implements CoreValidatable
 {
     public function rules()
     {
-        return [
-            'y' => 'required|numeric',
-        ];
+        return ['y' => 'required|numeric'];
     }
 
     public function messages()

@@ -17,8 +17,7 @@ use Drewlabs\Contracts\Validator\CoreValidatable;
 use function Drewlabs\Validation\Proxy\ViewModel;
 use Drewlabs\Validation\Tests\Stubs\AuthenticatableStub;
 use Drewlabs\Validation\Tests\Stubs\TestViewModel;
-
-use Drewlabs\Validation\Tests\TestCase;
+use PHPUnit\Framework\TestCase;
 
 class AttributeViewModelTest extends TestCase
 {
@@ -30,9 +29,9 @@ class AttributeViewModelTest extends TestCase
             'firstname' => 'Azandrew',
             'lastname' => 'Sidoine',
         ], []);
-        $this->assertInstanceOf(CoreValidatable::class, $viewModel, 'Expect the result of the ViewModel function to be an instance of '.CoreValidatable::class);
-        $this->assertInstanceOf(CoreValidatable::class, $viewModel2, 'Expect the result of the ViewModel function to be an instance of '.CoreValidatable::class);
-        $this->assertInstanceOf(CoreValidatable::class, $viewModel3, 'Expect the result of the ViewModel function to be an instance of '.CoreValidatable::class);
+        $this->assertInstanceOf(CoreValidatable::class, $viewModel, 'Expect the result of the ViewModel function to be an instance of ' . CoreValidatable::class);
+        $this->assertInstanceOf(CoreValidatable::class, $viewModel2, 'Expect the result of the ViewModel function to be an instance of ' . CoreValidatable::class);
+        $this->assertInstanceOf(CoreValidatable::class, $viewModel3, 'Expect the result of the ViewModel function to be an instance of ' . CoreValidatable::class);
     }
 
     public function testTestViewModel()
@@ -43,9 +42,7 @@ class AttributeViewModelTest extends TestCase
             'address' => [
                 'email' => 'azandrewdevelopper@gmail.com',
             ],
-        ], [
-            'file1' => new \stdClass(),
-        ]);
+        ], ['file1' => new \stdClass()]);
         $this->assertSame('Azandrew', $viewModel->get('firstname'), 'Expect the user provided firstname to equals Azandrew');
         $this->assertSame('azandrewdevelopper@gmail.com', $viewModel->get('address.email'), 'Expect the user provided email to equal azandrewdevelopper@gmail.com');
         $this->assertIsArray($viewModel->all(), 'Expect the all method to return an array');

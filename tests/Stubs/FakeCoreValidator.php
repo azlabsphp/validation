@@ -28,7 +28,7 @@ class FakeCoreValidator implements CoreValidator
         $rules = $args[1] ?? [];
         // $message = $args[2] ?? [];
         foreach ($rules as $key => $value) {
-            $value = \is_string($value) ? drewlabs_core_strings_to_array($value, '|') : $value;
+            $value = \is_string($value) ? explode('|', $value) : $value;
             if (\in_array('required', $value, true) && (null === ($values[$key] ?? null))) {
                 $this->errors_["$key.required"] = "$key attribute is required";
             }

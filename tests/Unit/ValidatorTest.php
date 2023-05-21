@@ -20,8 +20,7 @@ use Drewlabs\Validation\Tests\Stubs\BeforeValidationViewModel;
 use Drewlabs\Validation\Tests\Stubs\CoreValidatableModel;
 use Drewlabs\Validation\Tests\Stubs\FakeValidatorFactory;
 use Drewlabs\Validation\Tests\Stubs\ValidatableModel;
-
-use Drewlabs\Validation\Tests\TestCase;
+use PHPUnit\Framework\TestCase;
 
 class ValidatorTest extends TestCase
 {

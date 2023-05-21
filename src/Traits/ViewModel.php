@@ -64,13 +64,13 @@ trait ViewModel
     /**
      * Creates an instance of the current class.
      *
-     * @param mixed $args
+     * @param array $attributes
      *
-     * @return self|CoreValidatable|mixed
+     * @return self|CoreValidatable|Validatable
      */
-    public static function new(...$args)
+    public static function new($attributes = [])
     {
-        return new static(...$args);
+        return (new static)->merge($attributes ?? []);
     }
 
     /**
@@ -228,4 +228,5 @@ trait ViewModel
         return Arr::except($this->all(), $keys ?? []);
     }
     // #endregion Miscelanous methods
+
 }

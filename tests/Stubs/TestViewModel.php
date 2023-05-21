@@ -13,31 +13,27 @@ declare(strict_types=1);
 
 namespace Drewlabs\Validation\Tests\Stubs;
 
-use Drewlabs\Contracts\Validator\CoreValidatable;
-use Drewlabs\Validation\Traits\ViewModel;
+use Drewlabs\Contracts\Validator\ViewModel as ValidatorViewModel;
+use Drewlabs\Validation\Traits\ProvidesRulesFactory;
+use Drewlabs\Validation\Traits\ValidatableViewModel;
 
-class TestViewModel implements CoreValidatable
+class TestViewModel implements ValidatorViewModel
 {
-    use ViewModel;
+    use ValidatableViewModel;
+    use ProvidesRulesFactory;
 
     private $model_ = TestModel::class;
 
-    public function __construct()
-    {
-    }
-
     public function rules()
     {
-        return [];
+        return [
+            'prop_1' => ['nullable', 'numeric'],
+            'prop_2' => ['nullable', 'string']
+        ];
     }
 
     public function messages()
     {
         return [];
-    }
-
-    public function dynamicMethod()
-    {
-        return $this->getPrimaryKey();
     }
 }

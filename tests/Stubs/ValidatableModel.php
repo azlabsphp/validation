@@ -22,16 +22,12 @@ class ValidatableModel implements Validatable
 
     public function updateRules()
     {
-        return [
-            'y' => 'sometimes',
-        ];
+        return ['y' => 'sometimes'];
     }
 
     public function rules()
     {
-        return [
-            'y' => 'required|numeric',
-        ];
+        return ['y' => 'required|numeric'];
     }
 
     public function messages()
