@@ -19,7 +19,6 @@ use Drewlabs\Core\Helpers\Arr;
 trait ViewModel
 {
     use ArrayAccessible;
-    use HasFileAttributes;
     use PreparesInputs;
 
     /**
@@ -159,10 +158,7 @@ trait ViewModel
      */
     public function all($keys = null)
     {
-        $inputs = array_replace_recursive(
-            $this->input() ?? [],
-            $this->allFiles() ?? []
-        );
+        $inputs = array_replace_recursive($this->input() ?? [], method_exists($this, 'allFiles') ? $this->allFiles() ?? [] : []);
         if (!$keys || empty($keys)) {
             return $inputs;
         }

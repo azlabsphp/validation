@@ -13,35 +13,31 @@ declare(strict_types=1);
 
 namespace Drewlabs\Validation\Traits;
 
-use Psr\Http\Message\UploadedFileInterface;
-
 /**
- * Uses internally by {@see ViewModel} trait . Do not rely on it name as it's inteded to change
- * 
- * @internal
+ * @template TUploadedFile
  */
-trait HasFileAttributes
+trait FilesAttributesAware
 {
     /**
      * Uploaded files container object.
      *
-     * @var array
+     * @var TUploadedFile[]
      */
     private $__FILES__ = [];
 
     /**
-     * Attache a list of files to the current object.
-     *
-     * @return self|array
+     * Files property getter and setter
+     * 
+     * @param array|null $files
+     * 
+     * @return mixed[] 
      */
-    public function files(array $files = [])
+    public function files(array $files = null)
     {
-        if (null === $files) {
-            return $this->allFiles();
+        if (null !== $files) {
+            $this->__FILES__ = \is_array($files) ? $files : [];
         }
-        $this->__FILES__ = \is_array($files) ? $files : [];
-
-        return $this;
+        return $this->allFiles();
     }
 
     /**
@@ -51,19 +47,20 @@ trait HasFileAttributes
      *
      * @return self
      */
-    public function addFile(string $name, $file)
+    public function addFile(string $key, $file)
     {
         if ($file) {
-            $this->__FILES__[$name] = $file;
+            $this->__FILES__[$key] = $file;
         }
-
         return $this;
     }
 
     /**
      * Get a file from the list of attached files.
+     * 
+     * @template TUploadedFile
      *
-     * @return mixed|UploadedFileInterface
+     * @return TUploadedFile
      */
     public function file(string $key)
     {
@@ -73,10 +70,24 @@ trait HasFileAttributes
     /**
      * Returns the list of files attached to the current object.
      *
-     * @return array|UploadedFileInterface[]
+     * @template TUploadedFile
+     * 
+     * @return TUploadedFile[]
      */
     public function allFiles()
     {
         return $this->__FILES__ ?? [];
+    }
+
+    /**
+     * Determine if the uploaded data contains a file with matching key.
+     *
+     * @param  string  $key
+     * 
+     * @return bool
+     */
+    public function hasFile(string $key)
+    {
+        return array_key_exists($key, $this->__FILES__);
     }
 }

@@ -50,7 +50,7 @@ function ViewModel($blueprint, Authenticatable $user = null, array $attributes =
         $object = $object->merge($attributes ?? []);
     }
     if (method_exists($object, 'files') && (null !== $files)) {
-        $object = $object->files($files ?? []);
+        $object->files($files ?? []);
     }
 
     return $object;

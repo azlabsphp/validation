@@ -14,6 +14,7 @@ declare(strict_types=1);
 namespace Drewlabs\Validation\Tests\Stubs;
 
 use Drewlabs\Contracts\Validator\ViewModel as ValidatorViewModel;
+use Drewlabs\Validation\Traits\FilesAttributesAware;
 use Drewlabs\Validation\Traits\ModelAware;
 use Drewlabs\Validation\Traits\ProvidesRulesFactory;
 use Drewlabs\Validation\Traits\Validatable;
@@ -25,6 +26,7 @@ class TestViewModel implements ValidatorViewModel
     use ViewModel;
     use ProvidesRulesFactory;
     use ModelAware;
+    use FilesAttributesAware;
 
     private $model_ = TestModel::class;
 
