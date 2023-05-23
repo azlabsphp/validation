@@ -14,11 +14,13 @@ declare(strict_types=1);
 namespace Drewlabs\Validation\Tests\Stubs;
 
 use Drewlabs\Contracts\Validator\Validatable;
+use Drewlabs\Validation\Traits\ModelAware;
 use Drewlabs\Validation\Traits\ViewModel;
 
 class ValidatableModel implements Validatable
 {
     use ViewModel;
+    use ModelAware;
 
     public function updateRules()
     {
