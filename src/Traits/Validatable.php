@@ -16,10 +16,8 @@ namespace Drewlabs\Validation\Traits;
 use Drewlabs\Validation\Exceptions\ValidationException;
 use Drewlabs\Contracts\Validator\Validator;
 
-trait ValidatableViewModel
+trait Validatable
 {
-    use ViewModel;
-
     // #region Validation methods
     /**
      * Validates the view model object using the bounded validator {@see Validator} instance.

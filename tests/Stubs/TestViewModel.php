@@ -15,11 +15,13 @@ namespace Drewlabs\Validation\Tests\Stubs;
 
 use Drewlabs\Contracts\Validator\ViewModel as ValidatorViewModel;
 use Drewlabs\Validation\Traits\ProvidesRulesFactory;
-use Drewlabs\Validation\Traits\ValidatableViewModel;
+use Drewlabs\Validation\Traits\Validatable;
+use Drewlabs\Validation\Traits\ViewModel;
 
 class TestViewModel implements ValidatorViewModel
 {
-    use ValidatableViewModel;
+    use Validatable;
+    use ViewModel;
     use ProvidesRulesFactory;
 
     private $model_ = TestModel::class;
