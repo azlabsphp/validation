@@ -34,5 +34,8 @@
         "drewlabs/contracts": "^0.2.2|^2.0",
         "drewlabs/core-helpers": "^0.2|^2.0",
         "drewlabs/overloadable": "^0.1"
+    },
+    "config": {
+        "optimize-autoloader": true
     }
 }
