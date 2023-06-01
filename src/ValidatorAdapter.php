@@ -182,14 +182,15 @@ final class ValidatorAdapter implements Validator, ExceptionalValidator
 
     /**
      * Validation errors setter.
+     * 
+     * @param array|\Drewlabs\Contracts\Support\Arrayable|mixed $errors
      *
      * @return void
      */
-    private function setErrors(array $errors)
+    private function setErrors($errors)
     {
         $this->errors = $errors;
     }
-
     /**
      * Executes a callback before the validation get executed.
      *

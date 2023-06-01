@@ -50,7 +50,8 @@ trait Validatable
      * @param bool|\Closure|null $updating
      * @param \Closure|null $callback
      * @throws \Drewlabs\Core\Validator\Exceptions\ValidationException
-     * @return self
+     * 
+     * @return static
      */
     public function validated(...$args)
     {
@@ -93,7 +94,7 @@ trait Validatable
      * @param Validator $validator
      * @param callable $callback
      * 
-     * @return self|mixed
+     * @return static|mixed
      * 
      * @throws ValidationException
      */
