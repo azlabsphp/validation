@@ -13,8 +13,11 @@ declare(strict_types=1);
 
 namespace Drewlabs\Validation\Traits;
 
+use Drewlabs\Contracts\Validator\ViewModel;
+
 /**
  * @template TUploadedFile
+ * @method mixed __call(string $name, $arguments)
  */
 trait FilesAttributesAware
 {
@@ -45,7 +48,7 @@ trait FilesAttributesAware
      *
      * @param mixed $file
      *
-     * @return self
+     * @return static|ViewModel
      */
     public function addFile(string $key, $file)
     {

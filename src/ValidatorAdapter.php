@@ -13,7 +13,7 @@ declare(strict_types=1);
 
 namespace Drewlabs\Validation;
 
-use Drewlabs\Contracts\Validator\CoreValidatable;
+use Drewlabs\Contracts\Validator\BaseValidatable;
 use Drewlabs\Contracts\Validator\ExceptionalValidator;
 use Drewlabs\Contracts\Validator\Validator;
 use Drewlabs\Contracts\Validator\ValidatorFactory;
@@ -96,9 +96,9 @@ final class ValidatorAdapter implements Validator, ExceptionalValidator
                             return $this;
                         });
                 }
-                throw new InvalidArgumentException(sprintf("%s must exist and must be instance of %", $validatable, CoreValidatable::class));
+                throw new InvalidArgumentException(sprintf("%s must exist and must be instance of %", $validatable, BaseValidatable::class));
             },
-            function (CoreValidatable $object, array $values, $callback = null) {
+            function (BaseValidatable $object, array $values, $callback = null) {
                 return $this->after($callback)
                     ->through(function () use ($values, $object) {
                         $errors = ViewValidator::new($this->validator, $this->updating)->validate($object, $values);
@@ -109,7 +109,7 @@ final class ValidatorAdapter implements Validator, ExceptionalValidator
                         return $this;
                     });
             },
-            function (CoreValidatable $view, $callback = null) {
+            function (BaseValidatable $view, $callback = null) {
                 return $this->after($callback)
                     ->through(function () use ($view) {
                         if (!\is_array($values = $this->getValues($this->beforeValidation($view)))) {

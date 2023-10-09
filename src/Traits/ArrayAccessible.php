@@ -13,6 +13,9 @@ declare(strict_types=1);
 
 namespace Drewlabs\Validation\Traits;
 
+/**
+ * @method mixed __call(string $name, $arguments)
+ */
 trait ArrayAccessible
 {
     #[\ReturnTypeWillChange]

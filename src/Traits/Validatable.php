@@ -15,7 +15,10 @@ namespace Drewlabs\Validation\Traits;
 
 use Drewlabs\Validation\Exceptions\ValidationException;
 use Drewlabs\Contracts\Validator\Validator;
-
+use Drewlabs\Contracts\Validator\ViewModel;
+/**
+ * @method mixed __call(string $name, $arguments)
+ */
 trait Validatable
 {
     // #region Validation methods
@@ -51,7 +54,7 @@ trait Validatable
      * @param \Closure|null $callback
      * @throws \Drewlabs\Core\Validator\Exceptions\ValidationException
      * 
-     * @return static
+     * @return static|ViewModel
      */
     public function validated(...$args)
     {

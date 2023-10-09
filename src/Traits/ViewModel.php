@@ -13,9 +13,12 @@ declare(strict_types=1);
 
 namespace Drewlabs\Validation\Traits;
 
-use Drewlabs\Contracts\Validator\CoreValidatable;
 use Drewlabs\Core\Helpers\Arr;
+use Drewlabs\Contracts\Validator\ViewModel as AbstractViewModel;
 
+/**
+ * @method mixed __call(string $name, $arguments)
+ */
 trait ViewModel
 {
     use ArrayAccessible;
@@ -43,7 +46,7 @@ trait ViewModel
      *
      * @param array $attributes
      *
-     * @return self|CoreValidatable|Validatable
+     * @return static|AbstractViewModel
      */
     public static function new($attributes = [])
     {
@@ -53,7 +56,7 @@ trait ViewModel
     /**
      * Set the attributes to validate on the validatable class.
      *
-     * @return self
+     * @return static|AbstractViewModel
      */
     public function set(array $values = [])
     {
@@ -66,7 +69,7 @@ trait ViewModel
      * 
      * @param array $values 
      * 
-     * @return self 
+     * @return static|AbstractViewModel 
      */
     public function withBody(array $values = [])
     {
@@ -84,8 +87,9 @@ trait ViewModel
      * or call the `update([...])` to modify the object internal state
      * 
      * @param array $values 
-     * @param bool $mutate 
-     * @return self 
+     * @param bool $mutate
+     * 
+     * @return static|AbstractViewModel 
      */
     public function merge(array $values = [], bool $mutate = false)
     {
@@ -99,7 +103,7 @@ trait ViewModel
      * 
      * @param array $values
      * 
-     * @return self 
+     * @return static|AbstractViewModel 
      */
     public function update(array $values = [])
     {

@@ -15,8 +15,10 @@ namespace Drewlabs\Validation\Traits;
 
 use Closure;
 use LogicException;
+use Drewlabs\Contracts\Validator\ViewModel;
 
 /**
+ * @method mixed __call(string $name, $arguments)
  * @method self|void prepareForValidation()
  */
 trait PreparesInputs
@@ -24,7 +26,7 @@ trait PreparesInputs
     /**
      * Before validating the current object execute this function to transform request inputs.
      *
-     * @return self
+     * @return static|ViewModel
      */
     final public function before()
     {
@@ -43,7 +45,8 @@ trait PreparesInputs
      * a modified copy of the current instance
      * 
      * @param Closure $callback 
-     * @return self 
+     * @return static|ViewModel
+     * 
      * @throws LogicException 
      */
     public function transform(\Closure $callback)

@@ -50,7 +50,7 @@ final class ViewValidator
      * 
      * @param bool $updating
      * 
-     * @return self 
+     * @return static 
      */
     public static function new($factory, bool $updating = null)
     {

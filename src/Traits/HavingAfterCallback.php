@@ -15,11 +15,12 @@ namespace Drewlabs\Validation\Traits;
 
 use Closure;
 use Drewlabs\Validation\Exceptions\ValidationException;
+use Drewlabs\Contracts\Validator\ViewModel;
+
 
 trait HavingAfterCallback
 {
     /**
-     * 
      * @var \Closure
      */
     private $__CALLBACK__;
@@ -30,23 +31,25 @@ trait HavingAfterCallback
      * 
      * @param callable $callback 
      * 
-     * @return self 
+     * @return self|static|ViewModel
      */
     public function after($callback)
     {
         $this->__CALLBACK__ = $callback;
+
         return $this;
     }
 
     /**
      * Execute validation an invoke the callback set using `after` method
      * 
-     * @param Closure $project 
+     * @param Closure $project
+     * 
      * @return mixed
      * 
      * @throws ValidationException 
      */
-    private function through(\Closure $project)
+    public function through(\Closure $project)
     {
         $self = \call_user_func($project);
         if (null !== ($callback = $self->__CALLBACK__)) {

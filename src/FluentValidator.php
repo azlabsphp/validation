@@ -41,7 +41,7 @@ final class FluentValidator
      * 
      * @param callable|ValidatorFactory $factory 
      * 
-     * @return self 
+     * @return static 
      */
     public static function new($factory)
     {
