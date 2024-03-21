@@ -13,7 +13,7 @@ declare(strict_types=1);
 
 namespace Drewlabs\Validation\Tests\Unit;
 
-use Drewlabs\Contracts\Validator\CoreValidatable;
+use Drewlabs\Contracts\Validator\BaseValidatable;
 use function Drewlabs\Validation\Proxy\ViewModel;
 use Drewlabs\Validation\Tests\Stubs\AuthenticatableStub;
 use Drewlabs\Validation\Tests\Stubs\TestViewModel;
@@ -29,9 +29,9 @@ class AttributeViewModelTest extends TestCase
             'firstname' => 'Azandrew',
             'lastname' => 'Sidoine',
         ], []);
-        $this->assertInstanceOf(CoreValidatable::class, $viewModel, 'Expect the result of the ViewModel function to be an instance of ' . CoreValidatable::class);
-        $this->assertInstanceOf(CoreValidatable::class, $viewModel2, 'Expect the result of the ViewModel function to be an instance of ' . CoreValidatable::class);
-        $this->assertInstanceOf(CoreValidatable::class, $viewModel3, 'Expect the result of the ViewModel function to be an instance of ' . CoreValidatable::class);
+        $this->assertInstanceOf(BaseValidatable::class, $viewModel, 'Expect the result of the ViewModel function to be an instance of ' . BaseValidatable::class);
+        $this->assertInstanceOf(BaseValidatable::class, $viewModel2, 'Expect the result of the ViewModel function to be an instance of ' . BaseValidatable::class);
+        $this->assertInstanceOf(BaseValidatable::class, $viewModel3, 'Expect the result of the ViewModel function to be an instance of ' . BaseValidatable::class);
     }
 
     public function testTestViewModel()

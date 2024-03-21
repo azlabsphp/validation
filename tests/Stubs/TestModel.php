@@ -13,9 +13,8 @@ declare(strict_types=1);
 
 namespace Drewlabs\Validation\Tests\Stubs;
 
-use Drewlabs\Contracts\Data\Model\Model;
 
-class TestModel implements Model
+class TestModel
 {
     private $id = 1;
 

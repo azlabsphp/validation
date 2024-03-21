@@ -149,18 +149,6 @@ final class ValidatorAdapter implements Validator, ExceptionalValidator
     }
 
     /**
-     * @deprecated Use `updating()` instead
-     * 
-     * {@inheritDoc}
-     */
-    public function setUpdate(bool $update)
-    {
-        $this->updating = $update;
-
-        return $this;
-    }
-
-    /**
      * Returns the validation factory use to validate inputs or view model.
      *
      * @return ValidatorFactory|\Closure

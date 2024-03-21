@@ -30,10 +30,10 @@
         "phpunit/phpunit": "^9.5"
     },
     "require": {
-        "php": ">=7.2",
-        "drewlabs/contracts": "^0.2",
-        "drewlabs/core-helpers": "^0.2",
-        "drewlabs/overloadable": "^0.1|^0.2"
+        "php": "^7.2|^8.0",
+        "drewlabs/contracts": "^0.3",
+        "drewlabs/core-helpers": "^0.3",
+        "drewlabs/overloadable": "^0.1|^0.3"
     },
     "config": {
         "optimize-autoloader": true,

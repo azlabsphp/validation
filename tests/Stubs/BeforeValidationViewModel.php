@@ -13,10 +13,10 @@ declare(strict_types=1);
 
 namespace Drewlabs\Validation\Tests\Stubs;
 
-use Drewlabs\Contracts\Validator\CoreValidatable;
+use Drewlabs\Contracts\Validator\BaseValidatable;
 use Drewlabs\Validation\Traits\ViewModel;
 
-class BeforeValidationViewModel implements CoreValidatable
+class BeforeValidationViewModel implements BaseValidatable
 {
     use ViewModel;
 

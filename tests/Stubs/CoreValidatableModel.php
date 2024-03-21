@@ -13,9 +13,9 @@ declare(strict_types=1);
 
 namespace Drewlabs\Validation\Tests\Stubs;
 
-use Drewlabs\Contracts\Validator\CoreValidatable;
+use Drewlabs\Contracts\Validator\BaseValidatable;
 
-class CoreValidatableModel implements CoreValidatable
+class CoreValidatableModel implements BaseValidatable
 {
     public function rules()
     {

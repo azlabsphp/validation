@@ -42,7 +42,6 @@ final class ViewValidator
         $this->updating = $updating;
     }
 
-
     /**
      * Creates new class instance
      * 

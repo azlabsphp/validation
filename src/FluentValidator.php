@@ -35,7 +35,6 @@ final class FluentValidator
         $this->factory = $factory;
     }
 
-
     /**
      * Creates new class instance
      * 

@@ -15,7 +15,6 @@ namespace Drewlabs\Validation\Traits;
 
 use Closure;
 use Drewlabs\Validation\Exceptions\ValidationException;
-use Drewlabs\Contracts\Validator\ViewModel;
 
 
 trait HavingAfterCallback
@@ -31,7 +30,7 @@ trait HavingAfterCallback
      * 
      * @param callable $callback 
      * 
-     * @return self|static|ViewModel
+     * @return mixed
      */
     public function after($callback)
     {

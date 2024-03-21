@@ -13,9 +13,9 @@ declare(strict_types=1);
 
 namespace Drewlabs\Validation\Tests\Stubs;
 
-use Drewlabs\Contracts\Validator\CoreValidator;
+use Drewlabs\Contracts\Validator\AbstractValidator;
 
-class FakeCoreValidator implements CoreValidator
+class FakeCoreValidator implements AbstractValidator
 {
     /**
      * @var array

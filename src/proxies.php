@@ -14,10 +14,10 @@ declare(strict_types=1);
 namespace Drewlabs\Validation\Proxy;
 
 use Drewlabs\Contracts\Auth\Authenticatable;
-use Drewlabs\Contracts\Validator\CoreValidatable;
 use Drewlabs\Validation\ValidatorAdapter;
 use Drewlabs\Contracts\Validator\ValidatorFactory;
 use Closure;
+use Drewlabs\Contracts\Validator\BaseValidatable;
 use InvalidArgumentException;
 
 
@@ -34,8 +34,8 @@ use InvalidArgumentException;
 function ViewModel($blueprint, Authenticatable $user = null, array $attributes = [], array $files = [])
 {
     $object = \is_string($blueprint) ? new $blueprint() : $blueprint;
-    if (!\is_object($object) || !($object instanceof CoreValidatable)) {
-        throw new \InvalidArgumentException('1st argument to '.__FUNCTION__.' must be a valid core validatable object or class name');
+    if (!\is_object($object) || !($object instanceof BaseValidatable)) {
+        throw new \InvalidArgumentException('1st argument to '.__FUNCTION__.' must be a valid validatable object or class name');
     }
     /**
      * @var mixed $object
