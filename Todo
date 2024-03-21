@@ -2,5 +2,5 @@
 
 ## Version v0.3.x
 
-- Remove `getModel()` method definition from ModelAware Trait []
-- Remove support for CoreValidatable interface []
+- Remove `getModel()` method definition from ModelAware Trait [x]
+- Remove support for CoreValidatable interface [x]

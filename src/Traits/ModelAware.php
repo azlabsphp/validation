@@ -39,6 +39,8 @@ trait ModelAware
     }
 
     /**
+     * @deprecated
+     * 
      * @return object|string
      */
     public function getModel()
