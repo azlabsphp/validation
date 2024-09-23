@@ -15,7 +15,8 @@ namespace Drewlabs\Validation\Traits;
 
 trait ProvidesRulesFactory
 {
-   // #region Validation methods
+    
+    // #region Validation methods
     /**
      * Creates a fluent rules by applying a prefix to rules keys
      *
@@ -83,27 +84,85 @@ trait ProvidesRulesFactory
      */
     private static function prefixRules(array $rules, string $prefix = null)
     {
-        foreach ($rules as $key => $value) {
-            $value = array_map(function ($current) use ($prefix) {
-                if (!is_string($current)) {
-                    return $current;
-                }
-                if (false !== strpos($current, 'required_without:')) {
-                    return static::reconstructRequiredRules('required_without', $current, $prefix);
-                }
-                if (false !== strpos($current, 'required_without_all:')) {
-                    return static::reconstructRequiredRules('required_without_all', $current, $prefix);
-                }
-                if (false !== strpos($current, 'required_with:')) {
-                    return static::reconstructRequiredRules('required_with', $current, $prefix);
-                }
-                if (false !== strpos($current, 'required_with_all:')) {
-                    return static::reconstructRequiredRules('required_with_all', $current, $prefix);
-                }
-                return $current;
-            }, is_string($value) ? explode('|', $value) : $value);
-            yield "$prefix.$key" => $value;
+        // Add an unless rule if prefix is provided
+        $unless = [];
+        if ($prefix) {
+            $length = strlen($prefix);
+            $name = substr($prefix, $length - 2) === '.*' ? substr($prefix, 0, $length - 2) : $prefix;
+            $unless[] = "required_unless:$name,null";
         }
+
+        $has_nullable = function (array $array, ...$values) {
+            foreach ($values as $value) {
+                if (in_array($value, $array)) {
+                    return true;
+                }
+            }
+            return false;
+        };
+
+        $has_conditionally_required = function (array $array) {
+            $constraints = [
+                'required_if',
+                'required_if_declined',
+                'required_if_accepted',
+                'required_without',
+                'required_without_all',
+                'required_with',
+                'required_with_all'
+            ];
+            foreach ($constraints as $constraint) {
+                foreach ($array as $item) {
+                    if (is_string($item) && false !== strpos($item, "$constraint:")) {
+                        return true;
+                    }
+                }
+            }
+            return false;
+        };
+
+
+        foreach ($rules as $key => $value) {
+
+            // Explode validation rules to create and array if provided value is a string
+            $exploded = is_string($value) ? explode('|', $value) : $value;
+            $output = $has_nullable($exploded, 'nullable', 'sometimes') || $has_conditionally_required($exploded) ? [] : [...$unless];
+
+            foreach ($exploded as $component) {
+                if (!is_string($component)) {
+                    $output[] = $component;
+                    continue;
+                }
+
+                if (($result = static::partialValidationRule($component)) !== 'symbol:no:constraint') {
+                    $output[] = static::reconstructRequiredRules($result, $component, $prefix);
+                    continue;
+                }
+
+                $output[] = $component;
+            }
+
+            yield "$prefix.$key" => $output;
+        }
+    }
+
+    private static function partialValidationRule(string $value)
+    {
+        $constraints = [
+            'required_if_accepted',
+            'required_if',
+            'required_if_declined',
+            'required_without',
+            'required_without_all',
+            'required_with',
+            'required_with_all'
+        ];
+        foreach ($constraints as $constraint) {
+            if (false !== strpos($value, "$constraint:")) {
+                return $constraint;
+            }
+        }
+        return "symbol:no:constraint";
     }
 
     /**
@@ -133,7 +192,7 @@ trait ProvidesRulesFactory
         foreach ($rules as $key => $value) {
             if (false !== array_search($key, $excepts)) {
                 $current =  array_filter(is_array($value) ? $value : [$value], function ($item) {
-                    return false === strpos($item, 'required');
+                    return !is_string($item) || (false === strpos($item, 'required'));
                 });
                 yield $key => ['sometimes', ...$current];
                 continue;
@@ -141,5 +200,5 @@ trait ProvidesRulesFactory
             yield $key => $value;
         }
     }
-    // #endregion Validation methods 
+    // #endregion Validation methods
 }
