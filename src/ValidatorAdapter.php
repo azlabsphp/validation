@@ -74,7 +74,7 @@ final class ValidatorAdapter implements Validator, ExceptionalValidator
         $this->setErrors([]);
 
         return $this->overload($args, [
-            function (array $rules, array $values, ?array $messages = [], \Closure $callback = null) {
+            function (array $rules, array $values, ?array $messages = [], ?\Closure $callback = null) {
                 return $this->after($callback)
                     ->through(function () use ($values, $rules, $messages) {
                         $errors = FluentValidator::new($this->validator)->validate($values, $rules, $messages);

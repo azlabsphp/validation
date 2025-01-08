@@ -101,7 +101,7 @@ trait Validatable
      * 
      * @throws ValidationException
      */
-    public function validate(Validator $validator, callable $callback = null)
+    public function validate(Validator $validator, ?callable $callback = null)
     {
         if (($validator = $validator->validate($this)) && $validator->fails()) {
             throw new ValidationException($validator->errors());

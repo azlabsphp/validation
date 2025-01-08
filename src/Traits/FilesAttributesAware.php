@@ -35,7 +35,7 @@ trait FilesAttributesAware
      * 
      * @return mixed[] 
      */
-    public function files(array $files = null)
+    public function files(?array $files = null)
     {
         if (null !== $files) {
             $this->__FILES__ = \is_array($files) ? $files : [];

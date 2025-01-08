@@ -117,7 +117,7 @@ trait ViewModel
      *
      * @return array|mixed|null
      */
-    public function get(string $key = null)
+    public function get(?string $key = null)
     {
         if (null === $this->inputs) {
             return [];

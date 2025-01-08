@@ -31,7 +31,7 @@ use InvalidArgumentException;
  * @return mixed 
  * @throws InvalidArgumentException 
  */
-function ViewModel($blueprint, Authenticatable $user = null, array $attributes = [], array $files = [])
+function ViewModel($blueprint, ?Authenticatable $user = null, array $attributes = [], array $files = [])
 {
     $object = \is_string($blueprint) ? new $blueprint() : $blueprint;
     if (!\is_object($object) || !($object instanceof BaseValidatable)) {

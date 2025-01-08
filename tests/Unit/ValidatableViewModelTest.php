@@ -1,5 +1,7 @@
 <?php
 
+namespace Drewlabs\Validation\Tests\Unit;
+
 use Drewlabs\Contracts\Validator\ViewModel;
 use Drewlabs\Validation\Exceptions\ValidationException;
 use Drewlabs\Validation\Tests\Stubs\FakeValidatorFactory;

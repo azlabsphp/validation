@@ -24,7 +24,7 @@ trait ProvidesRulesFactory
      * @param array $excepts
      * @return mixed
      */
-    public static function createRules(string $prefix = null, array $attributes = [], array $excepts = [])
+    public static function createRules(?string $prefix = null, array $attributes = [], array $excepts = [])
     {
         return static::callCreateRules(static::new($attributes ?? [])->rules(), $prefix, $excepts);
     }
@@ -37,7 +37,7 @@ trait ProvidesRulesFactory
      * @param array $excepts 
      * @return array 
      */
-    public static function createUpdateRules(string $prefix = null, array $attributes = [], array $excepts = [])
+    public static function createUpdateRules(?string $prefix = null, array $attributes = [], array $excepts = [])
     {
         return static::callCreateRules(static::new($attributes ?? [])->updateRules(), $prefix, $excepts);
     }
@@ -50,7 +50,7 @@ trait ProvidesRulesFactory
      * @param array $excepts
      * @return array
      */
-    private static function callCreateRules(array $rules, string $prefix = null, array $excepts = [])
+    private static function callCreateRules(array $rules, ?string $prefix = null, array $excepts = [])
     {
         $rules = iterator_to_array(self::getRulesExcepts($rules, $excepts));
         return null === $prefix ? $rules : iterator_to_array(static::prefixRules($rules, $prefix));
@@ -81,7 +81,7 @@ trait ProvidesRulesFactory
      * @param string|null $prefix 
      * @return \Traversable<string, mixed, mixed, void> 
      */
-    private static function prefixRules(array $rules, string $prefix = null)
+    private static function prefixRules(array $rules, ?string $prefix = null)
     {
         // Add an unless rule if prefix is provided
         $unless = [];

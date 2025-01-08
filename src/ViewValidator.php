@@ -51,7 +51,7 @@ final class ViewValidator
      * 
      * @return static 
      */
-    public static function new($factory, bool $updating = null)
+    public static function new($factory, ?bool $updating = null)
     {
         $factory = is_callable($factory) ? $factory : function (array $values, array $rules, array $messages = []) use ($factory) {
             if (!($factory instanceof ValidatorFactory)) {
