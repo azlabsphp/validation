@@ -13,6 +13,10 @@ declare(strict_types=1);
 
 namespace Drewlabs\Validation\Traits;
 
+
+/**
+ * @method mixed new(mixed ...$args)
+ */
 trait ProvidesRulesFactory
 {
     // #region Validation methods

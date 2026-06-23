@@ -50,9 +50,9 @@ trait Validatable
      *  // Persist data to database after validation
      * });
      * ```
-     * @param bool|\Closure|null $updating
-     * @param \Closure|null $callback
-     * @throws \Drewlabs\Core\Validator\Exceptions\ValidationException
+     * @param mixed ...$args
+     * 
+     * @throws \Exception
      * 
      * @return static|ViewModel
      */
@@ -113,7 +113,7 @@ trait Validatable
      * Validates the current instance with a callback function
      * 
      * @param Validator $validator 
-     * @param Closure $callback 
+     * @param \Closure $callback 
      * @return Validator 
      */
     private function validateThen(Validator $validator, \Closure $callback)

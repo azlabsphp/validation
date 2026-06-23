@@ -20,13 +20,14 @@ use Drewlabs\Contracts\Validator\ValidatorFactory;
 use Drewlabs\Overloadable\Overloadable;
 use Drewlabs\Validation\Exceptions\ValidationException;
 use Drewlabs\Validation\Traits\HavingAfterCallback;
+use Drewlabs\Contracts\Validator\ViewModel;
 use InvalidArgumentException;
 
 /**
  * @method self|mixed validate(array $values, array $rules, ?array $messages = [], ?\Closure $callback = null)
  * @method self|mixed validate(string $validatable, array $values, ?\Closure $callback = null)
- * @method self|mixed validate(\Drewlabs\Contracts\Validator\CoreValidatable $validatable, array $values, ?\Closure $callback = null)
- * @method self|mixed validate(\Drewlabs\Contracts\Validator\ViewModel $validatable, ?\Closure $callback = null)
+ * @method self|mixed validate(BaseValidatable $validatable, array $values, ?\Closure $callback = null)
+ * @method self|mixed validate(ViewModel $validatable, ?\Closure $callback = null)
  */
 final class ValidatorAdapter implements Validator, ExceptionalValidator
 {
@@ -65,6 +66,8 @@ final class ValidatorAdapter implements Validator, ExceptionalValidator
 
     /**
      * {@inheritDoc}
+     * 
+     * @param mixed ...$args
      *
      * @throws ValidationException
      */
@@ -171,7 +174,7 @@ final class ValidatorAdapter implements Validator, ExceptionalValidator
     /**
      * Validation errors setter.
      * 
-     * @param array|\Drewlabs\Contracts\Support\Arrayable|mixed $errors
+     * @param mixed $errors
      *
      * @return void
      */

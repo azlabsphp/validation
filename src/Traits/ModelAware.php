@@ -22,29 +22,24 @@ trait ModelAware
      * @param mixed $name
      * @param mixed $arguments
      *
-     * @throws BadMethodCallException
+     * @throws \BadMethodCallException
      *
      * @return mixed
      */
     public function __call($name, $arguments)
     {
-        // We create an instance of the model class if it's a string
+        if (!method_exists($this, 'getModel')) {
+            throw new \BadMethodCallException("Method $name does not exists on " . __CLASS__);
+        }
+
         if (\is_string($model = $this->getModel()) && class_exists($model)) {
             $model = new $model;
         }
+
         if ($model) {
             return $model->{$name}(...$arguments);
         }
-        throw new \BadMethodCallException("Method $name does not exists on " . __CLASS__);
-    }
 
-    /**
-     * @deprecated
-     * 
-     * @return object|string
-     */
-    public function getModel()
-    {
-        return $this->model_;
+        throw new \BadMethodCallException("Method $name does not exists on " . __CLASS__);
     }
 }
